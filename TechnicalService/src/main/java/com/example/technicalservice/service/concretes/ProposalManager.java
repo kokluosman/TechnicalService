@@ -35,6 +35,7 @@ public class ProposalManager implements ProposalService {
             getAllProposal.setNote(proposal.getNote());
             getAllProposal.setPrice(proposal.getPrice());
             getAllProposal.setProduct(proposal.getProduct());
+            getAllProposal.setUser(proposal.getUser());
             allProposals.add(getAllProposal);
         }
         return new SuccessDataResult<>(allProposals,"Proposals is Successfully Listed!");
@@ -49,6 +50,7 @@ public class ProposalManager implements ProposalService {
         getProposal.setProposalStatus(proposal.isProposalStatus());
         getProposal.setProduct(proposal.getProduct());
         getProposal.setPrice(proposal.getPrice());
+        getProposal.setUser(proposal.getUser());
         return new SuccessDataResult<>(getProposal,"Successfully get byProposal ID");
     }
 
@@ -75,6 +77,7 @@ public class ProposalManager implements ProposalService {
         proposal.setProduct(createProposalReq.getProduct());
         proposal.setNote(createProposalReq.getNote());
         proposal.setPrice(createProposalReq.getPrice());
+        proposal.setUser(createProposalReq.getUser());
         this.repository.save(proposal);
         return new SuccessResult("Proposal Successfully Created!");
     }
@@ -87,6 +90,7 @@ public class ProposalManager implements ProposalService {
         proposal.setProposalStatus(updateProposalReq.isProposalStatus());
         proposal.setNote(updateProposalReq.getNote());
         proposal.setProduct(updateProposalReq.getProduct());
+        proposal.setUser(updateProposalReq.getUser());
         this.repository.save(proposal);
         return new SuccessDataResult<>(updateProposalReq,"Proposal Successfully updated!");
     }

@@ -24,8 +24,11 @@ public class Proposal {
 
     private boolean proposalStatus;
 
-    @OneToOne
+    @ManyToOne
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Product product;
 
+    @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private User user;
 }

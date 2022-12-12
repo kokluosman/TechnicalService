@@ -1,6 +1,7 @@
 package com.example.technicalservice.dto.proposal.requests;
 
 import com.example.technicalservice.model.Product;
+import com.example.technicalservice.model.User;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,4 +20,6 @@ public class UpdateProposalReq {
     private boolean proposalStatus;
 
     private Product product;
+
+    private User user;
 }
