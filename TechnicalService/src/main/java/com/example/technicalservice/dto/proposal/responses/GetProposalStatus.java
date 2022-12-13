@@ -12,17 +12,12 @@ import java.time.LocalDate;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class GetProposal {
-
-    private double price;
-
-    private String note;
+public class GetProposalStatus {
 
     private ProposalStatus proposalStatus;
 
     private GetProduct product;
 
-    private LocalDate date;
-
     private GetUser user;
+
 }

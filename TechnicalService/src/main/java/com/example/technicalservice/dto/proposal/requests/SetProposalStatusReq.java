@@ -1,5 +1,6 @@
 package com.example.technicalservice.dto.proposal.requests;
 
+import com.example.technicalservice.model.ProposalStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,6 +10,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class SetProposalStatusReq {
 
-    private boolean proposalStatus;
+    private ProposalStatus proposalStatus;
 
 }

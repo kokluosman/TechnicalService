@@ -1,5 +1,6 @@
 package com.example.technicalservice.api;
 
+
 import com.example.technicalservice.core.results.DataResult;
 import com.example.technicalservice.core.results.Result;
 import com.example.technicalservice.dto.proposal.requests.CreateProposalReq;
@@ -7,6 +8,8 @@ import com.example.technicalservice.dto.proposal.requests.SetProposalStatusReq;
 import com.example.technicalservice.dto.proposal.requests.UpdateProposalReq;
 import com.example.technicalservice.dto.proposal.responses.GetAllProposal;
 import com.example.technicalservice.dto.proposal.responses.GetProposal;
+import com.example.technicalservice.dto.proposal.responses.GetProposalStatus;
+import com.example.technicalservice.model.ProposalStatus;
 import com.example.technicalservice.service.abstracts.ProposalService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -14,18 +17,18 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(path = "/proposal")
 public class ProposalController {
 
     private final ProposalService proposalService;
-
-    @GetMapping(path = "/getall")
+    @GetMapping(path = "/getallproposal")
     DataResult<List<GetAllProposal>> getAllProposal(){
         return this.proposalService.getAllProposal();
     }
-    @GetMapping(path = "/getById/{id}")
+    @GetMapping(path = "/getproposal/{id}")
     DataResult<GetProposal> getProposal(@PathVariable(name = "id") long id){
         return this.proposalService.getProposal(id);
     }
@@ -33,18 +36,28 @@ public class ProposalController {
     Result deleteProposal(@PathVariable(name = "id") long id){
         return this.proposalService.deleteProposal(id);
     }
-    @PutMapping(path = "/setProposalStatus/{id}")
+    @PutMapping(path = "setproposalstatus/{id}")
     Result setProposalStatus(@PathVariable(name = "id") long id,
-                             @RequestBody SetProposalStatusReq setProposalStatusReq){
+                             @RequestHeader(name = "status") SetProposalStatusReq setProposalStatusReq){
         return this.proposalService.setProposalStatus(id, setProposalStatusReq);
     }
     @PostMapping(path = "/create")
     Result createProposal(@Valid @RequestBody CreateProposalReq createProposalReq){
         return this.proposalService.createProposal(createProposalReq);
     }
-    @PutMapping(path = "/update/{id}")
-    DataResult<UpdateProposalReq> updateProposal(@PathVariable(name = "id") long id,
+    @PutMapping(path = "/update")
+    DataResult<UpdateProposalReq> updateProposal(@RequestParam(name = "id") long id,
                                                  @Valid @RequestBody UpdateProposalReq updateProposalReq){
         return this.proposalService.updateProposal(id, updateProposalReq);
     }
+    @GetMapping(path = "/getByUser/{id}")
+    DataResult<List<GetProposal>> getByUserId(@PathVariable(name = "id") long id){
+        return this.proposalService.getByUserId(id);
+    }
+    @GetMapping(path = "/getallproposalstatus")
+    DataResult<List<GetProposalStatus>> getAllProposalStatus(@RequestHeader(name = "status")
+                                                             ProposalStatus status){
+        return this.proposalService.getAllProposalStatus(status);
+    }
+
 }

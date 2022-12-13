@@ -1,6 +1,7 @@
 package com.example.technicalservice.dto.proposal.requests;
 
 import com.example.technicalservice.model.Product;
+import com.example.technicalservice.model.ProposalStatus;
 import com.example.technicalservice.model.User;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -16,8 +17,6 @@ public class CreateProposalReq {
     private double price;
     @Length(max = 1500)
     private String note;
-
-    private boolean proposalStatus;
 
     private Product product;
 

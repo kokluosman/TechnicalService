@@ -1,10 +1,13 @@
 package com.example.technicalservice.dto.proposal.responses;
 
-import com.example.technicalservice.model.Product;
-import com.example.technicalservice.model.User;
+import com.example.technicalservice.dto.product.responses.GetProduct;
+import com.example.technicalservice.dto.user.responses.GetUser;
+import com.example.technicalservice.model.ProposalStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.time.LocalDate;
 
 @Data
 @AllArgsConstructor
@@ -17,9 +20,11 @@ public class GetAllProposal {
 
     private String note;
 
-    private boolean proposalStatus;
+    private ProposalStatus proposalStatus;
 
-    private Product product;
+    private LocalDate date;
 
-    private User user;
+    private GetProduct product;
+
+    private GetUser user;
 }

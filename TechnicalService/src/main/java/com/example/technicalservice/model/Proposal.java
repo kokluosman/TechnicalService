@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import java.time.LocalDate;
+
 
 @Data
 @AllArgsConstructor
@@ -22,13 +24,15 @@ public class Proposal {
 
     private String note;
 
-    private boolean proposalStatus;
+    private ProposalStatus proposalStatus;
 
-    @ManyToOne
+    private LocalDate date;
+
+    @ManyToOne(fetch = FetchType.EAGER)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Product product;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private User user;
 }

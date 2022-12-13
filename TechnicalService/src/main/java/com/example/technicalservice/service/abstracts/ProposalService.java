@@ -7,6 +7,8 @@ import com.example.technicalservice.dto.proposal.requests.SetProposalStatusReq;
 import com.example.technicalservice.dto.proposal.requests.UpdateProposalReq;
 import com.example.technicalservice.dto.proposal.responses.GetAllProposal;
 import com.example.technicalservice.dto.proposal.responses.GetProposal;
+import com.example.technicalservice.dto.proposal.responses.GetProposalStatus;
+import com.example.technicalservice.model.ProposalStatus;
 
 import java.util.List;
 
@@ -20,6 +22,7 @@ public interface ProposalService {
     Result createProposal(CreateProposalReq createProposalReq);
     DataResult<UpdateProposalReq> updateProposal(long id,UpdateProposalReq updateProposalReq);
 
-
+    DataResult<List<GetProposal>> getByUserId(long id);
+    DataResult<List<GetProposalStatus>> getAllProposalStatus(ProposalStatus status);
 
 }
