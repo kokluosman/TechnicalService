@@ -1,5 +1,4 @@
 package com.example.technicalservice.model;
-import com.example.technicalservice.dto.sale.responses.GetSale;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

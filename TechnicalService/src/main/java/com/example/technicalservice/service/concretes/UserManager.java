@@ -8,11 +8,12 @@ import com.example.technicalservice.core.results.SuccessResult;
 import com.example.technicalservice.dataAccess.UserRepository;
 import com.example.technicalservice.dto.user.requests.CreateUserReq;
 import com.example.technicalservice.dto.user.requests.UpdateUserReq;
-import com.example.technicalservice.dto.user.responses.GetAllUser;
-import com.example.technicalservice.dto.user.responses.GetUser;
+import com.example.technicalservice.dto.user.responses.UserGetAllResponse;
+import com.example.technicalservice.dto.user.responses.UserGetResponse;
 import com.example.technicalservice.model.User;
 import com.example.technicalservice.service.abstracts.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -21,44 +22,46 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class UserManager implements UserService {
 
     private final UserRepository userRepository;
 
     @Override
-    public DataResult<List<GetAllUser>> getAllUser() {
+    public DataResult<List<UserGetAllResponse>> getAllUser() {
         List<User> allUser = this.userRepository.findAll();
-        List<GetAllUser> getAllUsers = new ArrayList<>();
+        List<UserGetAllResponse> userGetAllResponses = new ArrayList<>();
         for (User user : allUser) {
-            GetAllUser getAllUser = new GetAllUser();
-            getAllUser.setEmail(user.getEmail());
-            getAllUser.setId(user.getId());
-            getAllUser.setName(user.getName());
-            getAllUser.setPassword(user.getPassword());
-            getAllUser.setRoles(user.getRoles());
-            getAllUsers.add(getAllUser);
+            UserGetAllResponse userGetAllResponse = new UserGetAllResponse();
+            userGetAllResponse.setEmail(user.getEmail());
+            userGetAllResponse.setId(user.getId());
+            userGetAllResponse.setName(user.getName());
+            userGetAllResponse.setPassword(user.getPassword());
+            userGetAllResponse.setRoles(user.getRoles());
+            userGetAllResponses.add(userGetAllResponse);
         }
-        return new SuccessDataResult<>(getAllUsers,"Data Successfully Listed!");
+        return new SuccessDataResult<>(userGetAllResponses,"Data Successfully Listed!");
     }
 
     @Override
-    public DataResult<GetUser> getById(long id) {
-        isNotExist(id);
+    public DataResult<UserGetResponse> getById(long id) {
+        isNotExistId(id);
         Optional<User> userById = this.userRepository.findById(id);
-        GetUser getUser = new GetUser();
+        UserGetResponse userGetResponse = new UserGetResponse();
         userById.stream()
                 .map(user -> {
-                    getUser.setEmail(user.getEmail());
-                    getUser.setName(user.getName());
-                    getUser.setRoles(user.getRoles());
-                    return getUser;
+                    userGetResponse.setEmail(user.getEmail());
+                    userGetResponse.setName(user.getName());
+                    userGetResponse.setRoles(user.getRoles());
+                    return userGetResponse;
                 });
-        return new SuccessDataResult<>(getUser,"The User Successfully getting!");
+        log.info("GetById services {} running",userGetResponse.getName());
+        return new SuccessDataResult<>(userGetResponse,"The User Successfully getting!");
     }
 
     @Override
     public DataResult<UpdateUserReq> updateUser(long id, UpdateUserReq updateUserReq) {
-        isNotExist(id);
+        isNotExistId(id);
         User user = this.userRepository.findById(id).get();
         user.setEmail(updateUserReq.getEmail());
         user.setName(updateUserReq.getName());
@@ -81,47 +84,47 @@ public class UserManager implements UserService {
 
     @Override
     public Result deleteUser(long id) {
-        isNotExist(id);
+        isNotExistId(id);
         this.userRepository.deleteById(id);
         return new SuccessResult("User Successfully deleted!!");
     }
 
     @Override
-    public DataResult<GetUser> getUserByEmail(String email) {
+    public DataResult<UserGetResponse> getUserByEmail(String email) {
         User byEmail = this.userRepository.findByEmail(email);
-        GetUser getUser = new GetUser();
-        getUser.setRoles(byEmail.getRoles());
-        getUser.setName(byEmail.getName());
-        getUser.setEmail(byEmail.getEmail());
-        return new SuccessDataResult<>(getUser,"User getting ByEmail Successfully!!");
+        UserGetResponse userGetResponse = new UserGetResponse();
+        userGetResponse.setRoles(byEmail.getRoles());
+        userGetResponse.setName(byEmail.getName());
+        userGetResponse.setEmail(byEmail.getEmail());
+        return new SuccessDataResult<>(userGetResponse,"User getting ByEmail Successfully!!");
     }
 
     @Override
-    public DataResult<List<GetUser>> getUserByName(String name) {
+    public DataResult<List<UserGetResponse>> getUserByName(String name) {
         List<User> users = this.userRepository.findByNameOrderByName(name);
-        List<GetUser> getUsers = new ArrayList<>();
+        List<UserGetResponse> userGetResponses = new ArrayList<>();
         for (User user : users) {
-            GetUser getUser = new GetUser();
-            getUser.setEmail(user.getEmail());
-            getUser.setName(user.getName());
-            getUser.setRoles(user.getRoles());
-            getUsers.add(getUser);
+            UserGetResponse userGetResponse = new UserGetResponse();
+            userGetResponse.setEmail(user.getEmail());
+            userGetResponse.setName(user.getName());
+            userGetResponse.setRoles(user.getRoles());
+            userGetResponses.add(userGetResponse);
         }
-        return new SuccessDataResult<>(getUsers,"Data Successfully Listed by name");
+        return new SuccessDataResult<>(userGetResponses,"Data Successfully Listed by name");
     }
 
     @Override
-    public DataResult<List<GetUser>> getUserContains(String email) {
+    public DataResult<List<UserGetResponse>> getUserContains(String email) {
         List<User> users = this.userRepository.findByEmailContainingIgnoreCase(email);
-        List<GetUser> getUsers = new ArrayList<>();
+        List<UserGetResponse> userGetResponses = new ArrayList<>();
         for (User user : users) {
-            GetUser getUser = new GetUser();
-            getUser.setEmail(user.getEmail());
-            getUser.setName(user.getName());
-            getUser.setRoles(user.getRoles());
-            getUsers.add(getUser);
+            UserGetResponse userGetResponse = new UserGetResponse();
+            userGetResponse.setEmail(user.getEmail());
+            userGetResponse.setName(user.getName());
+            userGetResponse.setRoles(user.getRoles());
+            userGetResponses.add(userGetResponse);
         }
-        return new SuccessDataResult<>(getUsers,"Data Successfully Listed by name");
+        return new SuccessDataResult<>(userGetResponses,"Data Successfully Listed by name");
     }
 
     void isExist(long id){
@@ -130,7 +133,7 @@ public class UserManager implements UserService {
         }
     }
 
-    void isNotExist(long id){
+    void isNotExistId(long id){
         if (!this.userRepository.existsById(id)){
             throw new BusinessException("This id is not exist");
         }

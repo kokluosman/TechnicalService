@@ -1,4 +1,4 @@
-package com.example.technicalservice.dto.role.responses;
+package com.example.technicalservice.dto.product.responses;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,9 +7,10 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class GetAllRoles {
+public class ProductGetAllResponse {
 
-    private Long id;
+    private long id;
 
     private String name;
+
 }

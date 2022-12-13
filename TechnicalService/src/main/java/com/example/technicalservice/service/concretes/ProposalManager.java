@@ -6,14 +6,14 @@ import com.example.technicalservice.core.results.Result;
 import com.example.technicalservice.core.results.SuccessDataResult;
 import com.example.technicalservice.core.results.SuccessResult;
 import com.example.technicalservice.dataAccess.ProposalRepository;
-import com.example.technicalservice.dto.product.responses.GetProduct;
+import com.example.technicalservice.dto.product.responses.ProductGetResponse;
 import com.example.technicalservice.dto.proposal.requests.CreateProposalReq;
 import com.example.technicalservice.dto.proposal.requests.SetProposalStatusReq;
 import com.example.technicalservice.dto.proposal.requests.UpdateProposalReq;
-import com.example.technicalservice.dto.proposal.responses.GetAllProposal;
-import com.example.technicalservice.dto.proposal.responses.GetProposal;
-import com.example.technicalservice.dto.proposal.responses.GetProposalStatus;
-import com.example.technicalservice.dto.user.responses.GetUser;
+import com.example.technicalservice.dto.proposal.responses.ProposalGetAllResponse;
+import com.example.technicalservice.dto.proposal.responses.ProposalGetResponse;
+import com.example.technicalservice.dto.proposal.responses.ProposalStatusGetResponse;
+import com.example.technicalservice.dto.user.responses.UserGetResponse;
 import com.example.technicalservice.model.Proposal;
 import com.example.technicalservice.model.ProposalStatus;
 import com.example.technicalservice.service.abstracts.ProposalService;
@@ -34,51 +34,51 @@ public class ProposalManager implements ProposalService {
 
     @Override
     @Transactional
-    public DataResult<List<GetAllProposal>> getAllProposal() {
+    public DataResult<List<ProposalGetAllResponse>> getAllProposal() {
         List<Proposal> all = this.repository.findAll();
-        List<GetAllProposal> allProposals = new ArrayList<>();
-        GetUser getUser = new GetUser();
-        GetProduct getProduct = new GetProduct();
+        List<ProposalGetAllResponse> allProposals = new ArrayList<>();
+        UserGetResponse userGetResponse = new UserGetResponse();
+        ProductGetResponse productGetResponse = new ProductGetResponse();
 
         for (Proposal proposal : all) {
-            GetAllProposal getAllProposal = new GetAllProposal();
-            getAllProposal.setId(proposal.getId());
-            getAllProposal.setNote(proposal.getNote());
-            getAllProposal.setPrice(proposal.getPrice());
-            getUser.setName(proposal.getUser().getName());
-            getUser.setRoles(proposal.getUser().getRoles());
-            getUser.setEmail(proposal.getUser().getEmail());
-            getAllProposal.setUser(getUser);
-            getProduct.setName(proposal.getProduct().getName());
-            getAllProposal.setProduct(getProduct);
-            getAllProposal.setProposalStatus(proposal.getProposalStatus());
-            getAllProposal.setDate(proposal.getDate());
+            ProposalGetAllResponse proposalGetAllResponse = new ProposalGetAllResponse();
+            proposalGetAllResponse.setId(proposal.getId());
+            proposalGetAllResponse.setNote(proposal.getNote());
+            proposalGetAllResponse.setPrice(proposal.getPrice());
+            userGetResponse.setName(proposal.getUser().getName());
+            userGetResponse.setRoles(proposal.getUser().getRoles());
+            userGetResponse.setEmail(proposal.getUser().getEmail());
+            proposalGetAllResponse.setUser(userGetResponse);
+            productGetResponse.setName(proposal.getProduct().getName());
+            proposalGetAllResponse.setProduct(productGetResponse);
+            proposalGetAllResponse.setProposalStatus(proposal.getProposalStatus());
+            proposalGetAllResponse.setDate(proposal.getDate());
 
-            allProposals.add(getAllProposal);
+            allProposals.add(proposalGetAllResponse);
         }
         manager.flush();
         return new SuccessDataResult<>(allProposals,"Proposals Successfully Listed!");
     }
 
     @Override
-    public DataResult<GetProposal> getProposal(long id) {
+    public DataResult<ProposalGetResponse> getProposal(long id) {
         isNotExist(id);
         Proposal proposal = this.repository.findById(id).get();
-        GetProposal getProposal = new GetProposal();
-        GetUser user = new GetUser();
-        GetProduct getProduct = new GetProduct();
-        getProposal.setPrice(proposal.getPrice());
-        getProposal.setNote(proposal.getNote());
-        getProposal.setProposalStatus(proposal.getProposalStatus());
+        ProposalGetResponse proposalGetResponse = new ProposalGetResponse();
+        UserGetResponse user = new UserGetResponse();
+        ProductGetResponse productGetResponse = new ProductGetResponse();
+        proposalGetResponse.setPrice(proposal.getPrice());
+        proposalGetResponse.setNote(proposal.getNote());
+        proposalGetResponse.setProposalStatus(proposal.getProposalStatus());
         user.setEmail(proposal.getUser().getEmail());
         user.setName(proposal.getUser().getName());
         user.setRoles(proposal.getUser().getRoles());
-        getProposal.setUser(user);
-        getProduct.setName(proposal.getProduct().getName());
-        getProposal.setProduct(getProduct);
-        getProposal.setDate(proposal.getDate());
+        proposalGetResponse.setUser(user);
+        productGetResponse.setName(proposal.getProduct().getName());
+        proposalGetResponse.setProduct(productGetResponse);
+        proposalGetResponse.setDate(proposal.getDate());
         manager.flush();
-        return new SuccessDataResult<>(getProposal,"Successfully called byId");
+        return new SuccessDataResult<>(proposalGetResponse,"Successfully called byId");
     }
 
     @Override
@@ -124,46 +124,46 @@ public class ProposalManager implements ProposalService {
     }
 
     @Override
-    public DataResult<List<GetProposal>> getByUserId(long id) {
+    public DataResult<List<ProposalGetResponse>> getByUserId(long id) {
         isNotExist(id);
         List<Proposal> allByUserId = this.repository.findAllByUserId(id);
-        List<GetProposal> getProposals = new ArrayList<>();
-        GetUser getUser = new GetUser();
-        GetProduct getProduct = new GetProduct();
+        List<ProposalGetResponse> proposalGetResponses = new ArrayList<>();
+        UserGetResponse userGetResponse = new UserGetResponse();
+        ProductGetResponse productGetResponse = new ProductGetResponse();
         for (Proposal proposal : allByUserId) {
-            GetProposal getProposal = new GetProposal();
-            getProposal.setDate(proposal.getDate());
-            getProposal.setPrice(proposal.getPrice());
-            getProposal.setProposalStatus(proposal.getProposalStatus());
-            getProposal.setNote(proposal.getNote());
-            getUser.setRoles(proposal.getUser().getRoles());
-            getUser.setName(proposal.getUser().getName());
-            getUser.setEmail(proposal.getUser().getEmail());
-            getProposal.setUser(getUser);
-            getProduct.setName(proposal.getProduct().getName());
-            getProposal.setProduct(getProduct);
+            ProposalGetResponse proposalGetResponse = new ProposalGetResponse();
+            proposalGetResponse.setDate(proposal.getDate());
+            proposalGetResponse.setPrice(proposal.getPrice());
+            proposalGetResponse.setProposalStatus(proposal.getProposalStatus());
+            proposalGetResponse.setNote(proposal.getNote());
+            userGetResponse.setRoles(proposal.getUser().getRoles());
+            userGetResponse.setName(proposal.getUser().getName());
+            userGetResponse.setEmail(proposal.getUser().getEmail());
+            proposalGetResponse.setUser(userGetResponse);
+            productGetResponse.setName(proposal.getProduct().getName());
+            proposalGetResponse.setProduct(productGetResponse);
 
-            getProposals.add(getProposal);
+            proposalGetResponses.add(proposalGetResponse);
         }
-        return new SuccessDataResult<>(getProposals,"Proposals Successfully Listed byId!!");
+        return new SuccessDataResult<>(proposalGetResponses,"Proposals Successfully Listed byId!!");
     }
 
     @Override
-    public DataResult<List<GetProposalStatus>> getAllProposalStatus(ProposalStatus status) {
+    public DataResult<List<ProposalStatusGetResponse>> getAllProposalStatus(ProposalStatus status) {
         List<Proposal> allByProposalStatus = this.repository.findAllByProposalStatus(status);
-        List<GetProposalStatus> getProposals = new ArrayList<>();
-        GetUser getUser = new GetUser();
-        GetProduct getProduct = new GetProduct();
+        List<ProposalStatusGetResponse> getProposals = new ArrayList<>();
+        UserGetResponse userGetResponse = new UserGetResponse();
+        ProductGetResponse productGetResponse = new ProductGetResponse();
         for (Proposal byProposalStatus : allByProposalStatus) {
-            GetProposalStatus getProposalStatus = new GetProposalStatus();
-            getProposalStatus.setProposalStatus(byProposalStatus.getProposalStatus());
-            getUser.setEmail(byProposalStatus.getUser().getEmail());
-            getUser.setName(byProposalStatus.getUser().getName());
-            getUser.setRoles(byProposalStatus.getUser().getRoles());
-            getProduct.setName(byProposalStatus.getProduct().getName());
-            getProposalStatus.setProduct(getProduct);
-            getProposalStatus.setUser(getUser);
-            getProposals.add(getProposalStatus);
+            ProposalStatusGetResponse proposalStatusGetResponse = new ProposalStatusGetResponse();
+            proposalStatusGetResponse.setProposalStatus(byProposalStatus.getProposalStatus());
+            userGetResponse.setEmail(byProposalStatus.getUser().getEmail());
+            userGetResponse.setName(byProposalStatus.getUser().getName());
+            userGetResponse.setRoles(byProposalStatus.getUser().getRoles());
+            productGetResponse.setName(byProposalStatus.getProduct().getName());
+            proposalStatusGetResponse.setProduct(productGetResponse);
+            proposalStatusGetResponse.setUser(userGetResponse);
+            getProposals.add(proposalStatusGetResponse);
         }
         return new SuccessDataResult<>(getProposals,"Proposals status are Successfully Listed!");
     }

@@ -8,8 +8,8 @@ import com.example.technicalservice.core.results.SuccessResult;
 import com.example.technicalservice.dataAccess.ProductRepository;
 import com.example.technicalservice.dto.product.requests.CreateProductReq;
 import com.example.technicalservice.dto.product.requests.UpdateProductReq;
-import com.example.technicalservice.dto.product.responses.GetAllProduct;
-import com.example.technicalservice.dto.product.responses.GetProduct;
+import com.example.technicalservice.dto.product.responses.ProductGetAllResponse;
+import com.example.technicalservice.dto.product.responses.ProductGetResponse;
 import com.example.technicalservice.model.Product;
 import com.example.technicalservice.service.abstracts.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -24,25 +24,25 @@ public class ProductManager implements ProductService {
     private final ProductRepository repository;
 
     @Override
-    public DataResult<List<GetAllProduct>> getAllProduct() {
+    public DataResult<List<ProductGetAllResponse>> getAllProduct() {
         List<Product> products = this.repository.findAll();
-        List<GetAllProduct> getAllProducts = new ArrayList<>();
+        List<ProductGetAllResponse> productGetAllResponses = new ArrayList<>();
         for (Product product : products) {
-            GetAllProduct getAllProduct = new GetAllProduct();
-            getAllProduct.setId(product.getId());
-            getAllProduct.setName(product.getName());
-            getAllProducts.add(getAllProduct);
+            ProductGetAllResponse productGetAllResponse = new ProductGetAllResponse();
+            productGetAllResponse.setId(product.getId());
+            productGetAllResponse.setName(product.getName());
+            productGetAllResponses.add(productGetAllResponse);
         }
-        return new SuccessDataResult<>(getAllProducts,"Products are Successfully Listed!");
+        return new SuccessDataResult<>(productGetAllResponses,"Products are Successfully Listed!");
     }
 
     @Override
-    public DataResult<GetProduct> getProduct(long id) {
+    public DataResult<ProductGetResponse> getProduct(long id) {
         isNotExist(id);
         Product product = this.repository.findById(id).get();
-        GetProduct getProduct = new GetProduct();
-        getProduct.setName(product.getName());
-        return new SuccessDataResult<>(getProduct,"Successfully Fetched");
+        ProductGetResponse productGetResponse = new ProductGetResponse();
+        productGetResponse.setName(product.getName());
+        return new SuccessDataResult<>(productGetResponse,"Successfully Fetched");
     }
 
     @Override

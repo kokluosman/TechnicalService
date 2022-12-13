@@ -3,8 +3,8 @@ package com.example.technicalservice.api;
 import com.example.technicalservice.core.results.DataResult;
 import com.example.technicalservice.core.results.Result;
 import com.example.technicalservice.dto.salelog.requests.CreateSaleLogReq;
-import com.example.technicalservice.dto.salelog.responses.GetAllSaleLog;
-import com.example.technicalservice.dto.salelog.responses.GetSaleLog;
+import com.example.technicalservice.dto.salelog.responses.SaleLogGetAllResponse;
+import com.example.technicalservice.dto.salelog.responses.SaleLogGetResponse;
 import com.example.technicalservice.service.abstracts.SaleLogService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -20,11 +20,11 @@ public class SaleLogController {
     private final SaleLogService saleLogService;
 
     @GetMapping(path = "/getall")
-    DataResult<List<GetAllSaleLog>> getAllSale(){
+    DataResult<List<SaleLogGetAllResponse>> getAllSale(){
         return this.saleLogService.getAllSale();
     }
     @GetMapping(path = "/getSale/{id}")
-    DataResult<GetSaleLog> getSaleLog(@PathVariable(name = "id") long id){
+    DataResult<SaleLogGetResponse> getSaleLog(@PathVariable(name = "id") long id){
         return this.saleLogService.getSaleLog(id);
     }
     @PostMapping(path = "/createSaleLog")

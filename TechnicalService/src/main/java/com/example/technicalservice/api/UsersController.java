@@ -4,8 +4,8 @@ import com.example.technicalservice.core.results.DataResult;
 import com.example.technicalservice.core.results.Result;
 import com.example.technicalservice.dto.user.requests.CreateUserReq;
 import com.example.technicalservice.dto.user.requests.UpdateUserReq;
-import com.example.technicalservice.dto.user.responses.GetAllUser;
-import com.example.technicalservice.dto.user.responses.GetUser;
+import com.example.technicalservice.dto.user.responses.UserGetAllResponse;
+import com.example.technicalservice.dto.user.responses.UserGetResponse;
 import com.example.technicalservice.service.abstracts.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -21,11 +21,11 @@ public class UsersController {
     private final UserService userService;
 
     @GetMapping(path = "/getall")
-    DataResult<List<GetAllUser>> getAllUser(){
+    DataResult<List<UserGetAllResponse>> getAllUser(){
         return this.userService.getAllUser();
     }
     @GetMapping(path = "/getuser/{id}")
-    DataResult<GetUser> getById(@PathVariable(name = "id") long id){
+    DataResult<UserGetResponse> getById(@PathVariable(name = "id") long id){
         return this.userService.getById(id);
     }
     @PutMapping(path = "/update/{id}")
@@ -42,15 +42,15 @@ public class UsersController {
         return this.userService.deleteUser(id);
     }
     @GetMapping(path = "/getByEmail")
-    DataResult<GetUser> getUserByEmail(@RequestBody String email){
+    DataResult<UserGetResponse> getUserByEmail(@RequestBody String email){
         return this.userService.getUserByEmail(email);
     }
     @GetMapping(path = "/getByUsername")
-    DataResult<List<GetUser>> getUserByName(@RequestBody String name){
+    DataResult<List<UserGetResponse>> getUserByName(@RequestBody String name){
         return this.userService.getUserByName(name);
     }
     @GetMapping(path = "/getContains")
-    DataResult<List<GetUser>> getUserContains(@RequestBody String email){
+    DataResult<List<UserGetResponse>> getUserContains(@RequestBody String email){
         return this.userService.getUserContains(email);
     }
 

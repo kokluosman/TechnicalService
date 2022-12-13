@@ -10,8 +10,8 @@ import java.sql.Timestamp;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class GetSaleLog {
-
+public class SaleLogGetAllResponse {
+    private long id;
     private Timestamp saleDate;
     private String creditCart;
 

@@ -6,8 +6,8 @@ import com.example.technicalservice.core.results.Result;
 import com.example.technicalservice.core.results.SuccessDataResult;
 import com.example.technicalservice.core.results.SuccessResult;
 import com.example.technicalservice.dataAccess.ServiceRepository;
-import com.example.technicalservice.dto.service.responses.GetAllServices;
-import com.example.technicalservice.dto.service.responses.GetServices;
+import com.example.technicalservice.dto.service.responses.ServicesGetAllResponse;
+import com.example.technicalservice.dto.service.responses.ServicesGetResponse;
 import com.example.technicalservice.service.abstracts.ServicesService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,24 +21,24 @@ public class ServicesManager implements ServicesService {
     private final ServiceRepository repository;
 
     @Override
-    public DataResult<List<GetAllServices>> getAll() {
+    public DataResult<List<ServicesGetAllResponse>> getAll() {
         List<com.example.technicalservice.model.Service> all = this.repository.findAll();
-        List<GetAllServices> getAllServices = new ArrayList<>();
+        List<ServicesGetAllResponse> serviceGetAllResponses = new ArrayList<>();
         for (com.example.technicalservice.model.Service service : all) {
-            GetAllServices getServices = new GetAllServices();
+            ServicesGetAllResponse getServices = new ServicesGetAllResponse();
             getServices.setId(service.getId());
             getServices.setName(service.getName());
-            getAllServices.add(getServices);
+            serviceGetAllResponses.add(getServices);
         }
-        return new SuccessDataResult<>(getAllServices,"Data Successfully Listed!");
+        return new SuccessDataResult<>(serviceGetAllResponses,"Data Successfully Listed!");
     }
 
     @Override
-    public DataResult<GetServices> getServices(long id) {
+    public DataResult<ServicesGetResponse> getServices(long id) {
         com.example.technicalservice.model.Service service = this.repository.findById(id).get();
-        GetServices getServices = new GetServices();
-        getServices.setName(service.getName());
-        return new SuccessDataResult<>(getServices,"Services is fetch");
+        ServicesGetResponse servicesGetResponse = new ServicesGetResponse();
+        servicesGetResponse.setName(service.getName());
+        return new SuccessDataResult<>(servicesGetResponse,"Services is fetch");
     }
 
     @Override

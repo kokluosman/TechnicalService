@@ -1,7 +1,7 @@
 package com.example.technicalservice.dto.proposal.responses;
 
-import com.example.technicalservice.dto.product.responses.GetProduct;
-import com.example.technicalservice.dto.user.responses.GetUser;
+import com.example.technicalservice.dto.product.responses.ProductGetResponse;
+import com.example.technicalservice.dto.user.responses.UserGetResponse;
 import com.example.technicalservice.model.ProposalStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class GetProposal {
+public class ProposalGetResponse {
 
     private double price;
 
@@ -20,9 +20,9 @@ public class GetProposal {
 
     private ProposalStatus proposalStatus;
 
-    private GetProduct product;
+    private ProductGetResponse product;
 
     private LocalDate date;
 
-    private GetUser user;
+    private UserGetResponse user;
 }

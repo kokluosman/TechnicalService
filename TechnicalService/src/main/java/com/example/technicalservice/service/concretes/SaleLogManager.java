@@ -7,8 +7,8 @@ import com.example.technicalservice.core.results.SuccessResult;
 import com.example.technicalservice.dataAccess.SaleLogRepository;
 import com.example.technicalservice.dataAccess.SaleRepository;
 import com.example.technicalservice.dto.salelog.requests.CreateSaleLogReq;
-import com.example.technicalservice.dto.salelog.responses.GetAllSaleLog;
-import com.example.technicalservice.dto.salelog.responses.GetSaleLog;
+import com.example.technicalservice.dto.salelog.responses.SaleLogGetAllResponse;
+import com.example.technicalservice.dto.salelog.responses.SaleLogGetResponse;
 import com.example.technicalservice.model.SaleLog;
 import com.example.technicalservice.service.abstracts.SaleLogService;
 import jakarta.persistence.EntityManager;
@@ -26,11 +26,11 @@ public class SaleLogManager implements SaleLogService {
     private final EntityManager manager;
 
     @Override
-    public DataResult<List<GetAllSaleLog>> getAllSale() {
+    public DataResult<List<SaleLogGetAllResponse>> getAllSale() {
         List<SaleLog> logs = this.logRepository.findAll();
-        List<GetAllSaleLog> allSales = new ArrayList<>();
+        List<SaleLogGetAllResponse> allSales = new ArrayList<>();
         for (SaleLog log : logs) {
-            GetAllSaleLog getAllSale = new GetAllSaleLog();
+            SaleLogGetAllResponse getAllSale = new SaleLogGetAllResponse();
             getAllSale.setSaleDate(log.getSaleDate());
             getAllSale.setId(log.getId());
             getAllSale.setUser(log.getUser());
@@ -42,14 +42,14 @@ public class SaleLogManager implements SaleLogService {
     }
 
     @Override
-    public DataResult<GetSaleLog> getSaleLog(long id) {
+    public DataResult<SaleLogGetResponse> getSaleLog(long id) {
         SaleLog saleLog = this.logRepository.findById(id).get();
-        GetSaleLog getSaleLog = new GetSaleLog();
-        getSaleLog.setSaleDate(saleLog.getSaleDate());
-        getSaleLog.setUser(saleLog.getUser());
-        getSaleLog.setCreditCart(saleLog.getCreditCart());
-        getSaleLog.setSale(saleLog.getSale());
-        return new SuccessDataResult<>(getSaleLog,"SaleLog is Succesfully Listed!");
+        SaleLogGetResponse saleLogGetResponse = new SaleLogGetResponse();
+        saleLogGetResponse.setSaleDate(saleLog.getSaleDate());
+        saleLogGetResponse.setUser(saleLog.getUser());
+        saleLogGetResponse.setCreditCart(saleLog.getCreditCart());
+        saleLogGetResponse.setSale(saleLog.getSale());
+        return new SuccessDataResult<>(saleLogGetResponse,"SaleLog is Succesfully Listed!");
     }
 
     @Override

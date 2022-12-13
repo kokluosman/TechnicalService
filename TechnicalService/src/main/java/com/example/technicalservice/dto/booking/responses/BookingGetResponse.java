@@ -11,9 +11,7 @@ import java.time.LocalDate;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class GetAllBooking {
-    private long id;
-
+public class BookingGetResponse {
     private LocalDate bookingDate;
 
     private String note;

@@ -8,8 +8,8 @@ import com.example.technicalservice.core.results.SuccessResult;
 import com.example.technicalservice.dataAccess.SaleRepository;
 import com.example.technicalservice.dto.sale.requests.CreateSaleReq;
 import com.example.technicalservice.dto.sale.requests.UpdateSaleReq;
-import com.example.technicalservice.dto.sale.responses.GetAllSale;
-import com.example.technicalservice.dto.sale.responses.GetSale;
+import com.example.technicalservice.dto.sale.responses.SaleGetAllResponse;
+import com.example.technicalservice.dto.sale.responses.SaleGetResponse;
 import com.example.technicalservice.model.Sale;
 import com.example.technicalservice.service.abstracts.SaleService;
 import lombok.RequiredArgsConstructor;
@@ -53,54 +53,54 @@ public class SaleManager implements SaleService {
     }
 
     @Override
-    public DataResult<List<GetAllSale>> getAllSale() {
+    public DataResult<List<SaleGetAllResponse>> getAllSale() {
         List<Sale> all = this.saleRepository.findAll();
-        List<GetAllSale> allSales = new ArrayList<>();
+        List<SaleGetAllResponse> allSales = new ArrayList<>();
         for (Sale sale : all) {
-            GetAllSale getAllSale = new GetAllSale();
-            getAllSale.setSold(sale.isSold());
-            getAllSale.setProduct(sale.getProduct());
-            getAllSale.setId(sale.getId());
-            getAllSale.setNote(sale.getNote());
-            getAllSale.setPrice(sale.getPrice());
+            SaleGetAllResponse saleGetAllResponse = new SaleGetAllResponse();
+            saleGetAllResponse.setSold(sale.isSold());
+            saleGetAllResponse.setProduct(sale.getProduct());
+            saleGetAllResponse.setId(sale.getId());
+            saleGetAllResponse.setNote(sale.getNote());
+            saleGetAllResponse.setPrice(sale.getPrice());
 
-            allSales.add(getAllSale);
+            allSales.add(saleGetAllResponse);
         }
         return new SuccessDataResult<>(allSales,"Sales are Successfully Listed!!");
     }
 
     @Override
-    public DataResult<List<GetAllSale>> getAllSaleIsSold() {
+    public DataResult<List<SaleGetAllResponse>> getAllSaleIsSold() {
         List<Sale> sales = this.saleRepository.findAllByIsSold(false);
-        List<GetAllSale> allSales = new ArrayList<>();
+        List<SaleGetAllResponse> allSales = new ArrayList<>();
         sales.stream()
                 .map(sale -> {
-                    GetAllSale getAllSale = new GetAllSale();
-                    getAllSale.setPrice(sale.getPrice());
-                    getAllSale.setNote(sale.getNote());
-                    getAllSale.setProduct(sale.getProduct());
-                    getAllSale.setId(sale.getId());
-                    getAllSale.setSold(sale.isSold());
-                    allSales.add(getAllSale);
-                    return getAllSale;
+                    SaleGetAllResponse saleGetAllResponse = new SaleGetAllResponse();
+                    saleGetAllResponse.setPrice(sale.getPrice());
+                    saleGetAllResponse.setNote(sale.getNote());
+                    saleGetAllResponse.setProduct(sale.getProduct());
+                    saleGetAllResponse.setId(sale.getId());
+                    saleGetAllResponse.setSold(sale.isSold());
+                    allSales.add(saleGetAllResponse);
+                    return saleGetAllResponse;
                 });
         return new SuccessDataResult<>(allSales,"Data Successfully Listed!");
     }
 
     @Override
-    public DataResult<List<GetSale>> getByProduct(long id) {
+    public DataResult<List<SaleGetResponse>> getByProduct(long id) {
         List<Sale> sales = this.saleRepository.findAllByProductIdAndIsSold(id, false);
-        List<GetSale> getSales = new ArrayList<>();
+        List<SaleGetResponse> saleGetResponses = new ArrayList<>();
         sales.forEach(sale -> {
-            GetSale getSale = new GetSale();
-            getSale.setNote(sale.getNote());
-            getSale.setSold(sale.isSold());
-            getSale.setProduct(sale.getProduct());
-            getSale.setPrice(sale.getPrice());
-            getSale.setId(sale.getId());
-            getSales.add(getSale);
+            SaleGetResponse saleGetResponse = new SaleGetResponse();
+            saleGetResponse.setNote(sale.getNote());
+            saleGetResponse.setSold(sale.isSold());
+            saleGetResponse.setProduct(sale.getProduct());
+            saleGetResponse.setPrice(sale.getPrice());
+            saleGetResponse.setId(sale.getId());
+            saleGetResponses.add(saleGetResponse);
         });
-        return new SuccessDataResult<>(getSales,"Data Successfully Listed!!");
+        return new SuccessDataResult<>(saleGetResponses,"Data Successfully Listed!!");
     }
 
     void isNotExist(long id){

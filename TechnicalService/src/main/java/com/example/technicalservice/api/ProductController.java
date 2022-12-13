@@ -4,8 +4,8 @@ import com.example.technicalservice.core.results.DataResult;
 import com.example.technicalservice.core.results.Result;
 import com.example.technicalservice.dto.product.requests.CreateProductReq;
 import com.example.technicalservice.dto.product.requests.UpdateProductReq;
-import com.example.technicalservice.dto.product.responses.GetAllProduct;
-import com.example.technicalservice.dto.product.responses.GetProduct;
+import com.example.technicalservice.dto.product.responses.ProductGetAllResponse;
+import com.example.technicalservice.dto.product.responses.ProductGetResponse;
 import com.example.technicalservice.service.abstracts.ProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -21,11 +21,11 @@ public class ProductController {
     private final ProductService service;
 
     @GetMapping(path = "/getall")
-    DataResult<List<GetAllProduct>> getAllProduct(){
+    DataResult<List<ProductGetAllResponse>> getAllProduct(){
         return this.service.getAllProduct();
     }
     @GetMapping(path = "/getById/{id}")
-    DataResult<GetProduct> getProduct(@PathVariable(name = "id") long id){
+    DataResult<ProductGetResponse> getProduct(@PathVariable(name = "id") long id){
         return this.service.getProduct(id);
     }
     @PostMapping(path = "/create")

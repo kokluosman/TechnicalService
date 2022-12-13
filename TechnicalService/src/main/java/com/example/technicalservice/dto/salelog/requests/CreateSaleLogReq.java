@@ -1,6 +1,5 @@
 package com.example.technicalservice.dto.salelog.requests;
 
-import com.example.technicalservice.dto.sale.responses.GetSale;
 import com.example.technicalservice.model.Sale;
 import com.example.technicalservice.model.User;
 import lombok.AllArgsConstructor;

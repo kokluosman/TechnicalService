@@ -8,8 +8,8 @@ import com.example.technicalservice.core.results.SuccessResult;
 import com.example.technicalservice.dataAccess.RoleRepository;
 import com.example.technicalservice.dto.role.requests.CreateRoleReq;
 import com.example.technicalservice.dto.role.requests.UpdateRoleReq;
-import com.example.technicalservice.dto.role.responses.GetAllRoles;
-import com.example.technicalservice.dto.role.responses.GetRoles;
+import com.example.technicalservice.dto.role.responses.RolesGetAllResponse;
+import com.example.technicalservice.dto.role.responses.RolesGetResponse;
 import com.example.technicalservice.model.Role;
 import com.example.technicalservice.service.abstracts.RoleService;
 import lombok.RequiredArgsConstructor;
@@ -24,11 +24,11 @@ public class RoleManager implements RoleService {
     private final RoleRepository repository;
 
     @Override
-    public DataResult<List<GetAllRoles>> getAllRoles() {
+    public DataResult<List<RolesGetAllResponse>> getAllRoles() {
         List<Role> all = this.repository.findAll();
-        List<GetAllRoles> allRoles = new ArrayList<>();
+        List<RolesGetAllResponse> allRoles = new ArrayList<>();
         for (Role role : all) {
-            GetAllRoles roles = new GetAllRoles();
+            RolesGetAllResponse roles = new RolesGetAllResponse();
             roles.setName(role.getName());
             roles.setId(role.getId());
 
@@ -38,10 +38,10 @@ public class RoleManager implements RoleService {
     }
 
     @Override
-    public DataResult<GetRoles> getRole(long id) {
+    public DataResult<RolesGetResponse> getRole(long id) {
         isNotExist(id);
         Role role = this.repository.findById(id).get();
-        GetRoles roles = new GetRoles();
+        RolesGetResponse roles = new RolesGetResponse();
         roles.setName(role.getName());
         return new SuccessDataResult<>(roles,"Role Successfully Fetched By Id");
     }

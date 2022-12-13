@@ -10,10 +10,8 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class GetAllUser {
-    private long id;
+public class UserGetResponse {
     private String name;
     private String email;
-    private String password;
     private List<Role> roles;
 }

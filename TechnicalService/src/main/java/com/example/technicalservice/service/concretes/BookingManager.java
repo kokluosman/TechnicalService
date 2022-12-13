@@ -7,12 +7,13 @@ import com.example.technicalservice.core.results.SuccessResult;
 import com.example.technicalservice.dataAccess.BookingRepository;
 import com.example.technicalservice.dto.booking.requests.CreateBookingReq;
 import com.example.technicalservice.dto.booking.requests.UpdateBookingReq;
-import com.example.technicalservice.dto.booking.responses.GetAllBooking;
-import com.example.technicalservice.dto.booking.responses.GetBooking;
+import com.example.technicalservice.dto.booking.responses.BookingGetAllResponse;
+import com.example.technicalservice.dto.booking.responses.BookingGetResponse;
 import com.example.technicalservice.model.Booking;
 import com.example.technicalservice.service.abstracts.BookingService;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -28,11 +29,11 @@ public class BookingManager implements BookingService {
     private final EntityManager manager;
 
     @Override
-    public DataResult<List<GetAllBooking>> getAllBookingAsc() {
+    public DataResult<List<BookingGetAllResponse>> getAllBookingAsc() {
         List<Booking> allByOrderByBookingDateAsc = this.bookingRepository.findAllByOrderByBookingDateAsc();
-        List<GetAllBooking> getAllBookings = new ArrayList<>();
+        List<BookingGetAllResponse> getAllBookings = new ArrayList<>();
         for (Booking booking : allByOrderByBookingDateAsc) {
-            GetAllBooking getAllBooking = new GetAllBooking();
+            BookingGetAllResponse getAllBooking = new BookingGetAllResponse();
             getAllBooking.setBookingDate(booking.getBookingDate());
             getAllBooking.setUser(booking.getUser());
             getAllBooking.setId(booking.getId());
@@ -41,16 +42,15 @@ public class BookingManager implements BookingService {
             getAllBooking.setService(booking.getService());
             getAllBookings.add(getAllBooking);
         }
-
         return new SuccessDataResult<>(getAllBookings,"Bookings are Successfully Listed Asc");
     }
 
     @Override
-    public DataResult<List<GetAllBooking>> getAllBookingDesc() {
+    public DataResult<List<BookingGetAllResponse>> getAllBookingDesc() {
         List<Booking> allByOrderByBookingDateAsc = this.bookingRepository.findAllByOrderByBookingDateDesc();
-        List<GetAllBooking> getAllBookings = new ArrayList<>();
+        List<BookingGetAllResponse> getAllBookings = new ArrayList<>();
         for (Booking booking : allByOrderByBookingDateAsc) {
-            GetAllBooking getAllBooking = new GetAllBooking();
+            BookingGetAllResponse getAllBooking = new BookingGetAllResponse();
             getAllBooking.setBookingDate(booking.getBookingDate());
             getAllBooking.setUser(booking.getUser());
             getAllBooking.setId(booking.getId());
@@ -64,11 +64,11 @@ public class BookingManager implements BookingService {
 
 
     @Override
-    public DataResult<List<GetAllBooking>> getAllBookingDateAsc(LocalDate date) {
+    public DataResult<List<BookingGetAllResponse>> getAllBookingDateAsc(LocalDate date) {
         List<Booking> bookings = this.bookingRepository.findByBookingDateOrderByBookingDateAsc(date);
-        List<GetAllBooking> getAllBookings = new ArrayList<>();
+        List<BookingGetAllResponse> getAllBookings = new ArrayList<>();
         for (Booking booking : bookings) {
-            GetAllBooking getAllBooking = new GetAllBooking();
+            BookingGetAllResponse getAllBooking = new BookingGetAllResponse();
             getAllBooking.setBookingDate(booking.getBookingDate());
             getAllBooking.setUser(booking.getUser());
             getAllBooking.setId(booking.getId());
@@ -81,11 +81,11 @@ public class BookingManager implements BookingService {
     }
 
     @Override
-    public DataResult<List<GetAllBooking>> getAllBookingDateDesc(LocalDate date) {
+    public DataResult<List<BookingGetAllResponse>> getAllBookingDateDesc(LocalDate date) {
         List<Booking> bookings = this.bookingRepository.findByBookingDateOrderByBookingDateDesc(date);
-        List<GetAllBooking> getAllBookings = new ArrayList<>();
+        List<BookingGetAllResponse> getAllBookings = new ArrayList<>();
         for (Booking booking : bookings) {
-            GetAllBooking getAllBooking = new GetAllBooking();
+            BookingGetAllResponse getAllBooking = new BookingGetAllResponse();
             getAllBooking.setBookingDate(booking.getBookingDate());
             getAllBooking.setUser(booking.getUser());
             getAllBooking.setId(booking.getId());
@@ -98,36 +98,36 @@ public class BookingManager implements BookingService {
     }
 
     @Override
-    public DataResult<List<GetBooking>> getByBookingLikeName(String name) {
+    public DataResult<List<BookingGetResponse>> getByBookingLikeName(String name) {
         List<Booking> bookings = this.bookingRepository.findByBookingLikeName(name);
-        List<GetBooking> getBookings = new ArrayList<>();
+        List<BookingGetResponse> bookingGetResponses = new ArrayList<>();
         for (Booking booking : bookings) {
-            GetBooking getBooking = new GetBooking();
-            getBooking.setBookingDate(booking.getBookingDate());
-            getBooking.setDone(booking.isDone());
-            getBooking.setUser(booking.getUser());
-            getBooking.setNote(booking.getNote());
-            getBooking.setService(booking.getService());
-            getBookings.add(getBooking);
+            BookingGetResponse bookingGetResponse = new BookingGetResponse();
+            bookingGetResponse.setBookingDate(booking.getBookingDate());
+            bookingGetResponse.setDone(booking.isDone());
+            bookingGetResponse.setUser(booking.getUser());
+            bookingGetResponse.setNote(booking.getNote());
+            bookingGetResponse.setService(booking.getService());
+            bookingGetResponses.add(bookingGetResponse);
         }
-        return new SuccessDataResult<>(getBookings,"Bookings are Successfully " +
+        return new SuccessDataResult<>(bookingGetResponses,"Bookings are Successfully " +
                 "Listed! By UserName");
     }
 
     @Override
-    public DataResult<GetBooking> getById(long id) {
+    public DataResult<BookingGetResponse> getById(long id) {
         Optional<Booking> byId = this.bookingRepository.findById(id);
-        GetBooking getBooking = new GetBooking();
+        BookingGetResponse bookingGetResponse = new BookingGetResponse();
         byId.stream()
                 .map(booking -> {
-                    getBooking.setNote(booking.getNote());
-                    getBooking.setBookingDate(booking.getBookingDate());
-                    getBooking.setDone(booking.isDone());
-                    getBooking.setUser(booking.getUser());
-                    getBooking.setService(booking.getService());
-                    return getBooking;
+                    bookingGetResponse.setNote(booking.getNote());
+                    bookingGetResponse.setBookingDate(booking.getBookingDate());
+                    bookingGetResponse.setDone(booking.isDone());
+                    bookingGetResponse.setUser(booking.getUser());
+                    bookingGetResponse.setService(booking.getService());
+                    return bookingGetResponse;
                 });
-        return new SuccessDataResult<>(getBooking,"Booking is Successfully getting!");
+        return new SuccessDataResult<>(bookingGetResponse,"Booking is Successfully getting!");
     }
 
     @Override

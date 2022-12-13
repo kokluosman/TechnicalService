@@ -8,8 +8,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class GetServices {
+public class ServicesGetAllResponse {
+
+    private Long id;
     @NotBlank
     private String name;
-
 }

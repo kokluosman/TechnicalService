@@ -4,8 +4,8 @@ import com.example.technicalservice.core.results.DataResult;
 import com.example.technicalservice.core.results.Result;
 import com.example.technicalservice.dto.booking.requests.CreateBookingReq;
 import com.example.technicalservice.dto.booking.requests.UpdateBookingReq;
-import com.example.technicalservice.dto.booking.responses.GetAllBooking;
-import com.example.technicalservice.dto.booking.responses.GetBooking;
+import com.example.technicalservice.dto.booking.responses.BookingGetAllResponse;
+import com.example.technicalservice.dto.booking.responses.BookingGetResponse;
 import com.example.technicalservice.service.abstracts.BookingService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -23,31 +23,31 @@ public class BookingController {
     private final BookingService bookingService;
 
     @GetMapping(path = "/getallAsc")
-    DataResult<List<GetAllBooking>> getAllBookingAsc(){
+    DataResult<List<BookingGetAllResponse>> getAllBookingAsc(){
         return this.bookingService.getAllBookingAsc();
     }
     @GetMapping(path = "/getallDesc")
-    DataResult<List<GetAllBooking>> getAllBookingDesc(){
+    DataResult<List<BookingGetAllResponse>> getAllBookingDesc(){
         return this.bookingService.getAllBookingDesc();
     }
     @GetMapping(path = "/getallBookingAsc/{dateTo}")
-    DataResult<List<GetAllBooking>> getAllBookingDateAsc(@PathVariable(name = "dateTo")
+    DataResult<List<BookingGetAllResponse>> getAllBookingDateAsc(@PathVariable(name = "dateTo")
                                                          @DateTimeFormat(pattern = "yyyy-MM-dd")
                                                          LocalDate date){
         return this.bookingService.getAllBookingDateAsc(date);
     }
     @GetMapping(path = "/getallBookingDesc/{dateTo}")
-    DataResult<List<GetAllBooking>> getAllBookingDateDesc(@PathVariable(name = "dateTo")
+    DataResult<List<BookingGetAllResponse>> getAllBookingDateDesc(@PathVariable(name = "dateTo")
                                                           @DateTimeFormat(pattern = "yyyy-MM-dd")
                                                           LocalDate date){
         return this.bookingService.getAllBookingDateDesc(date);
     }
     @GetMapping(path = "/getByUserName/{name}")
-    DataResult<List<GetBooking>> getByBookingLikeName(@PathVariable(name = "name") String name){
+    DataResult<List<BookingGetResponse>> getByBookingLikeName(@PathVariable(name = "name") String name){
         return this.bookingService.getByBookingLikeName(name);
     }
     @PostMapping(path = "/getId/{id}")
-    DataResult<GetBooking> getById(@PathVariable(name = "id") long id){
+    DataResult<BookingGetResponse> getById(@PathVariable(name = "id") long id){
         return this.bookingService.getById(id);
     }
     @DeleteMapping(path = "/delete/{id}")
